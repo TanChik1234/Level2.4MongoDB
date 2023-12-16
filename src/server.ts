@@ -293,7 +293,7 @@ function logoutHandler (req: Request, res: Response) {
 
 async function registerHandler (req: Request, res: Response) {
   const inputData = req.body;
-  if(checkLoginAndPass(inputData.login, inputData.pass)){
+  if(!checkLoginAndPass(inputData.login, inputData.pass)){
     console.log("wrong data");
     res.status(400).send(JSON.stringify({
       ok: false,
@@ -334,7 +334,7 @@ async function registerHandler (req: Request, res: Response) {
 
 function checkLoginAndPass(login: string, pass: string): boolean {
   const regexpLogin = /^[\w|\d][-a-z\d.+]{1,19}@[-_?=/+*'&%$!.\w\d]{1,15}\.\w{1,5}$/i;
-  const regexpPass = /^[a-z\d]$/i;
+  const regexpPass = /^[a-z\d]{6,}$/i;
 
   return !(regexpLogin.test(login) && regexpPass.test(pass));
 }
@@ -355,6 +355,6 @@ async function findItemID(): Promise<number> {
     return idItem;
   } catch (error) {
     console.error('Ошибка:', error);
-    throw error; // Вы можете обработать ошибку здесь или передать ее дальше
+    throw error; 
   }
 }
